@@ -14,6 +14,7 @@ import {
   TouchableOpacity,
   TouchableHighlight,
 } from "react-native";
+// @ts-ignore
 import Spinner from "react-native-spinkit";
 /**
  * ? Local Imports
@@ -62,6 +63,7 @@ interface IProps {
   data?: Array<ISingleSelectDataType>;
   onTextChange?: (text: string) => void;
   onSelect: (selectedItem: ISingleSelectDataType) => void;
+  value?: ISingleSelectDataType;
 }
 
 let iconRef: any = undefined;
@@ -89,12 +91,17 @@ const RNSingleSelect = (props: IProps) => {
     spinnerType = "ThreeBounce",
     spinnerSize = 30,
     spinnerColor,
+    value = null
   } = props;
+
+  const getInitialSelectedItemValue = () => {
+    return value ? value : null;
+  };
 
   const [
     selectedItem,
     setSelectedItem,
-  ] = React.useState<ISingleSelectDataType | null>(null);
+  ] = React.useState<ISingleSelectDataType | null>(getInitialSelectedItemValue());
   const [menuToggled, setMenuToggled] = React.useState<boolean | null>(false);
   const [dataBackup, setDataBackup] = React.useState<
     Array<ISingleSelectDataType> | undefined
@@ -178,6 +185,7 @@ const RNSingleSelect = (props: IProps) => {
     });
     !disableFilterAnimation && triggerFilterAnimation();
     setDataSource(newData);
+    //@ts-ignore
     setSelectedItem({ value: text });
     setDataSource(newData);
   };
@@ -229,6 +237,7 @@ const RNSingleSelect = (props: IProps) => {
             <Icon
               theme={theme}
               ref={(ref: Icon) => (iconRef = ref)}
+              //@ts-ignore
               style={[styles.arrowImageStyle, arrowImageStyle]}
               {...props}
             />
